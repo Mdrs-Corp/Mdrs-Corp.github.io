@@ -21,14 +21,79 @@
 		html{
 			background-image: url(https://cdn.discordapp.com/channel-icons/811145130341433345/39ea9cb1cfda7c2046f68f13272fa87f.png?size=32);
 		}
+
+		#theCanvas{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+
+		 pointer-events: none;
+}
 	</style>
 </head>
 <body>
 	<p>
 		C'est très simple:<br>
-		Une equipe, un but : 
+		Une equipe, un but :
 		<blockquote>LES POOOOOOMES </blockquote>
+		olivi ❤️
 	</p>
 	<a href="https://www.google.fr/maps/place/Mdrs+Corp./@43.1259347,5.9632857,15z/data=!4m5!3m4!1s0x0:0x962fea313d8b88!8m2!3d43.1259593!4d5.9789033"> Nous retrouver</a>
+	<canvas id="theCanvas"></canvas>
+	<script type="text/javascript">
+		let canvas = document.getElementById("theCanvas");
+		let ctx = canvas.getContext("2d");
+		function resize(){
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		resize();
+		window.addEventListener("resize", ()=>resize())
+
+		window.addEventListener("mousemove", (e)=> {
+			let angle = Math.random()*Math.PI*2;
+			particles.push(new Particle(e.pageX, e.pageY,10*Math.cos(angle), 10*Math.sin(angle)));
+		})
+
+
+		class Particle{
+			constructor(x, y, vx = 0, vy = 0){
+				this.x = x;
+				this.y = y;
+				this.vx = vx;
+				this.vy = vy;
+				this.size = 50
+			}
+			update(){
+				this.x += this.vx;
+				this.y += this.vy;
+				this.vy += 0.6;
+			}
+			draw(ctx){
+				ctx.drawImage(rigoliman, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+			}
+		}
+
+		const rigoliman = new Image();
+		rigoliman.src = "rigoliman.png";
+
+		let particles = [];
+
+		particles.push(new Particle(10,10))
+
+		function render() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			for (particle of particles) {
+				particle.update();
+			}
+			for (particle of particles) {
+				particle.draw(ctx);
+			}
+			requestAnimationFrame(render)
+		}
+		requestAnimationFrame(render);
+	</script>
 </body>
 </html>
