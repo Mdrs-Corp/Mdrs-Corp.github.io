@@ -64,12 +64,13 @@
 				this.y = y;
 				this.vx = vx;
 				this.vy = vy;
-				this.size = 50
+				this.size = 50;
 			}
 			update(){
 				this.x += this.vx;
 				this.y += this.vy;
 				this.vy += 0.6;
+				this.size += 1;
 			}
 			draw(ctx){
 				ctx.drawImage(rigoliman, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
@@ -85,11 +86,16 @@
 
 		function render() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height)
-			for (particle of particles) {
+			for (let particle of particles) {
 				particle.update();
 			}
-			for (particle of particles) {
+			for (let particle of particles) {
 				particle.draw(ctx);
+			}
+			for (let ind in particles) {
+				if (particles[ind].y > canvas.height) {
+					particles.splice(ind, 1)
+				}
 			}
 			requestAnimationFrame(render)
 		}
