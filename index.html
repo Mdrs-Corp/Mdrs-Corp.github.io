@@ -17,33 +17,51 @@
 			font-size: 10vh;
 			color: lawngreen;
 			background-color: red;
+
+			animation-duration: 2s;
+  			animation-name: hydrocution;
+  			animation-iteration-count: infinite;
+  			animation-direction: alternate;
 		}
 		html{
 			background-image: url(https://cdn.discordapp.com/channel-icons/811145130341433345/39ea9cb1cfda7c2046f68f13272fa87f.png?size=32);
 		}
-
+		@keyframes hydrocution{
+			from{
+				background-color: red;
+				color: yellow;
+			}
+			to{
+				background-color: yellow;
+				color: red;
+			}
+		}
 		#theCanvas{
-  position:fixed;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-
-		 pointer-events: none;
-}
+  			position:fixed;
+  			top:0;
+  			right:0;
+  			bottom:0;
+  			left:0;
+  			pointer-events: none;
+		}
 	</style>
 </head>
 <body>
 	<p>
 		C'est très simple:<br>
 		Une equipe, un but :
-		<blockquote>LES POOOOOOMES </blockquote>
+		<blockquote>LES PO<span id="pom"></span>MMES </blockquote>
 		olivi ❤️ <br>
 		<i> "Sus"</i> - Amongus
 	</p>
 	<a href="https://www.google.fr/maps/place/Mdrs+Corp./@43.1259347,5.9632857,15z/data=!4m5!3m4!1s0x0:0x962fea313d8b88!8m2!3d43.1259593!4d5.9789033"> Nous retrouver</a>
 	<canvas id="theCanvas"></canvas>
 	<script type="text/javascript">
+
+		let pom=document.getElementById('pom')
+		pom.textContent="O".repeat(parseInt(Math.random()*100))
+		delete pom
+		
 		let canvas = document.getElementById("theCanvas");
 		let ctx = canvas.getContext("2d");
 		function resize(){
