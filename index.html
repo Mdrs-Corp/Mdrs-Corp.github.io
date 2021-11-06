@@ -65,6 +65,11 @@
 		let pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
 		pommes.textContent = 'LES POMMES' + pommeEmoji;
 
+		let muted = true;
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'm') muted = !muted;
+		})
+
 		const audioCtx = new AudioContext();
 
 		fetch('soupe_les_pommes.mp3')
@@ -82,6 +87,9 @@
 			}, 50)
 
 			pommes.addEventListener('mouseenter', () => {
+				setTimeout(() => action = true, 600);
+				
+				if (muted) return;
 				source = audioCtx.createBufferSource();
 				source.connect(audioCtx.destination)
 				source.buffer = audioBuffer;
@@ -89,16 +97,12 @@
 				source.loopStart = 0.784;
 				source.loopEnd = 0.839;
 				source.start(0);
-
-				setTimeout(() => {
-					action = true;
-					pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
-				}, 600);
 			})
 
 			pommes.addEventListener('mouseleave', () => {
-				source.loop = false;
 				setTimeout(() => action = false, 600);
+				
+				if (source) source.loop = false;
 			})
 		})
 
