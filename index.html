@@ -6,6 +6,10 @@
 	<title>The MDRS Corp</title>
 	<link rel="icon" href="https://cdn.discordapp.com/channel-icons/811145130341433345/39ea9cb1cfda7c2046f68f13272fa87f.png?size=32">
 	<style type="text/css">
+		@font-face {
+			font-family: 'pommes';
+			src: url('AppleFruitRegular.ttf');
+		}
 		p{
 			font-size: 5vh;
 			color: red;
@@ -13,10 +17,12 @@
 		body{
 			background-color: rgba(255,255,255,.5);
 		}
-		blockquote{
+		#pommes {
+			font-family: "Comic Sans MS";
 			font-size: 10vh;
 			color: lawngreen;
 			background-color: red;
+			padding: 30px;
 
 			animation-duration: 2s;
   			animation-name: hydrocution;
@@ -51,7 +57,7 @@
 	<p>
 		C'est très simple:<br>
 		Une equipe, un but :
-		<blockquote>LES POMMES</blockquote>
+		<p id='pommes'>LES POMMES</p>
 		olivi ❤️ <br>
 		<i> "Sus"</i> - Amongus
 	</p>
@@ -61,13 +67,15 @@
 
 
 
-		const pommes = document.querySelector('blockquote');
-		let pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
+		const pommes = document.querySelector('#pommes');
+		let pommeEmoji = '🔇';
 		pommes.textContent = 'LES POMMES' + pommeEmoji;
 
 		let muted = true;
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'm') muted = !muted;
+			if (muted) pommeEmoji = '🔇';
+			else pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
 		})
 
 		const audioCtx = new AudioContext();
@@ -81,9 +89,14 @@
 			let action = false;
 			let i = 0;
 			const loop = setInterval(() => {
-				if (action) i++;
-				else if (i > 0) i--;
-				pommes.textContent = 'LES PO' + 'O'.repeat(i) + 'MMES' + pommeEmoji;
+				if (action) {
+					i++;
+					pommes.textContent = 'LES PO' + 'O'.repeat(i) + 'MMES' + pommeEmoji;
+				}
+				else {
+					i = 0;
+					pommes.textContent = 'LES POMMES' + pommeEmoji;
+				}
 			}, 50)
 
 			pommes.addEventListener('mouseenter', () => {
