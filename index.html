@@ -22,6 +22,7 @@
   			animation-name: hydrocution;
   			animation-iteration-count: infinite;
   			animation-direction: alternate;
+			word-break: break-all;
 		}
 		html{
 			background-image: url(https://cdn.discordapp.com/channel-icons/811145130341433345/39ea9cb1cfda7c2046f68f13272fa87f.png?size=32);
@@ -50,7 +51,7 @@
 	<p>
 		C'est très simple:<br>
 		Une equipe, un but :
-		<blockquote>LES PO<span id="pom"></span>MMES </blockquote>
+		<blockquote>LES POMMES</blockquote>
 		olivi ❤️ <br>
 		<i> "Sus"</i> - Amongus
 	</p>
@@ -58,9 +59,58 @@
 	<canvas id="theCanvas"></canvas>
 	<script type="text/javascript">
 
-		let pom=document.getElementById('pom')
+
+
+		const pommes = document.querySelector('blockquote');
+		let pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
+		pommes.textContent = 'LES POMMES' + pommeEmoji;
+
+		let muted = true;
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'm') muted = !muted;
+		})
+
+		const audioCtx = new AudioContext();
+
+		fetch('soupe_les_pommes.mp3')
+		.then(async response => {
+			const buffer = await response.arrayBuffer();
+			const audioBuffer = await audioCtx.decodeAudioData(buffer);
+			let source;
+			
+			let action = false;
+			let i = 0;
+			const loop = setInterval(() => {
+				if (action) i++;
+				else if (i > 0) i--;
+				pommes.textContent = 'LES PO' + 'O'.repeat(i) + 'MMES' + pommeEmoji;
+			}, 50)
+
+			pommes.addEventListener('mouseenter', () => {
+				setTimeout(() => action = true, 600);
+				
+				if (muted) return;
+				source = audioCtx.createBufferSource();
+				source.connect(audioCtx.destination)
+				source.buffer = audioBuffer;
+				source.loop = true;
+				source.loopStart = 0.784;
+				source.loopEnd = 0.839;
+				source.start(0);
+			})
+
+			pommes.addEventListener('mouseleave', () => {
+				setTimeout(() => action = false, 600);
+				
+				if (source) source.loop = false;
+			})
+		})
+
+		
+
+		/*let pom=document.getElementById('pom')
 		pom.textContent="O".repeat(parseInt(Math.random()*100))
-		delete pom
+		delete pom*/
 		
 		let canvas = document.getElementById("theCanvas");
 		let ctx = canvas.getContext("2d");
