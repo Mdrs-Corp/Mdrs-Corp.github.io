@@ -22,6 +22,7 @@
   			animation-name: hydrocution;
   			animation-iteration-count: infinite;
   			animation-direction: alternate;
+			word-break: break-all;
 		}
 		html{
 			background-image: url(https://cdn.discordapp.com/channel-icons/811145130341433345/39ea9cb1cfda7c2046f68f13272fa87f.png?size=32);
@@ -58,9 +59,52 @@
 	<canvas id="theCanvas"></canvas>
 	<script type="text/javascript">
 
-		let pom=document.getElementById('pom')
+		const audioCtx = new AudioContext();
+
+		fetch('soupe_les_pommes.mp3')
+		.then(async response => {
+			const buffer = await response.arrayBuffer();
+			const audioBuffer = await audioCtx.decodeAudioData(buffer);
+			let source;
+			let blockLoop = false;
+			let loop;
+
+			const blockquote = document.querySelector('blockquote');
+			const ooooo = document.querySelector('#pom');
+
+			blockquote.addEventListener('mouseenter', () => {
+				source = audioCtx.createBufferSource();
+				source.connect(audioCtx.destination)
+				source.buffer = audioBuffer;
+				source.loop = true;
+				source.loopStart = 0.784;
+				source.loopEnd = 0.839;
+				source.start(0);
+
+				blockLoop = false;
+				setTimeout(() => {
+					if (!blockLoop) {
+						loop = setInterval(() => {
+							ooooo.textContent += 'O';
+						}, 50);
+					}
+				}, 600)
+			})
+
+			blockquote.addEventListener('mouseleave', () => {
+				source.loop = false;
+
+				blockLoop = true;
+				clearInterval(loop);
+				setTimeout(() => ooooo.textContent = '', 400);
+			})
+		})
+
+		
+
+		/*let pom=document.getElementById('pom')
 		pom.textContent="O".repeat(parseInt(Math.random()*100))
-		delete pom
+		delete pom*/
 		
 		let canvas = document.getElementById("theCanvas");
 		let ctx = canvas.getContext("2d");
