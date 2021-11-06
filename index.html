@@ -51,13 +51,19 @@
 	<p>
 		C'est très simple:<br>
 		Une equipe, un but :
-		<blockquote>LES PO<span id="pom"></span>MMES </blockquote>
+		<blockquote>LES POMMES</blockquote>
 		olivi ❤️ <br>
 		<i> "Sus"</i> - Amongus
 	</p>
 	<a href="https://www.google.fr/maps/place/Mdrs+Corp./@43.1259347,5.9632857,15z/data=!4m5!3m4!1s0x0:0x962fea313d8b88!8m2!3d43.1259593!4d5.9789033"> Nous retrouver</a>
 	<canvas id="theCanvas"></canvas>
 	<script type="text/javascript">
+
+
+
+		const pommes = document.querySelector('blockquote');
+		let pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
+		pommes.textContent = 'LES POMMES' + pommeEmoji;
 
 		const audioCtx = new AudioContext();
 
@@ -66,13 +72,16 @@
 			const buffer = await response.arrayBuffer();
 			const audioBuffer = await audioCtx.decodeAudioData(buffer);
 			let source;
-			let blockLoop = false;
-			let loop;
+			
+			let action = false;
+			let i = 0;
+			const loop = setInterval(() => {
+				if (action) i++;
+				else if (i > 0) i--;
+				pommes.textContent = 'LES PO' + 'O'.repeat(i) + 'MMES' + pommeEmoji;
+			}, 50)
 
-			const blockquote = document.querySelector('blockquote');
-			const ooooo = document.querySelector('#pom');
-
-			blockquote.addEventListener('mouseenter', () => {
+			pommes.addEventListener('mouseenter', () => {
 				source = audioCtx.createBufferSource();
 				source.connect(audioCtx.destination)
 				source.buffer = audioBuffer;
@@ -81,22 +90,15 @@
 				source.loopEnd = 0.839;
 				source.start(0);
 
-				blockLoop = false;
 				setTimeout(() => {
-					if (!blockLoop) {
-						loop = setInterval(() => {
-							ooooo.textContent += 'O';
-						}, 50);
-					}
-				}, 600)
+					action = true;
+					pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
+				}, 600);
 			})
 
-			blockquote.addEventListener('mouseleave', () => {
+			pommes.addEventListener('mouseleave', () => {
 				source.loop = false;
-
-				blockLoop = true;
-				clearInterval(loop);
-				setTimeout(() => ooooo.textContent = '', 400);
+				setTimeout(() => action = false, 600);
 			})
 		})
 
