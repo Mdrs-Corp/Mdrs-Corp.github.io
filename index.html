@@ -81,7 +81,7 @@
 
 		let muted = true;
 		document.addEventListener('keydown', (e) => {
-			if (e.key === 'm') muted = !muted;
+			muted = !muted;
 			if (muted) pommeEmoji = '🔇';
 			else pommeEmoji = ['🍎', '🍏'][Math.floor(Math.random()*2)];
 		})
@@ -144,7 +144,7 @@
 
 		window.addEventListener("mousemove", (e)=> {
 			let angle = Math.random()*Math.PI*2;
-			particles.push(new Particle(e.pageX, e.pageY,10*Math.cos(angle), 10*Math.sin(angle)));
+			particles.push(new Particle(e.clientX, e.clientY,10*Math.cos(angle), 10*Math.sin(angle)));
 		})
 
 
